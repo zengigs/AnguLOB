@@ -11,4 +11,21 @@ AnguLOB is a javascript library designed for building line-of-business applicati
 8.  Logging of user actions for audit purposes
 9.  And more...
 
-Usage
+#Usage
+Using AnguLOB is very easy. Just include the file angulob.js or angulob.min.js (for debugging or production) to your index.html file. Make sure it is after including the angularjs file as angulob depends on angularjs. See markup below
+
+<pre>
+<html>
+  <head>
+    .
+    .
+    .
+  </head>
+  <body>
+    .
+    .
+    .
+    <script src="angulob.js"></script>
+  </body>
+</html>
+</pre>
