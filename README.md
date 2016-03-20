@@ -28,15 +28,27 @@ index.html
 </html>
 ```
 
-Then assuming I have an endpoint http://localhost/hrms/api/employees
+Then assuming you have a webservice endpoint http://localhost/hrms/api/employees that returns in json format the list of all employees for the human resource management system(hrms), you can write an angular controller for managing fetching of employees as illustrated in the code below:
 
 ```
 (function () {
     angular.module('app').controller('employeesController', ['$scope', 'bizObjects', function ($scope, bizObjects) {
-
-    }])
-        bizObjects.activate("Employees", "hrms/api/employees", "employees");
+        bizObjects.init(
+            {
+              bizObjectName:"Employees",
+              bizObjectSvcUrl:"api/employees"
+            });
         $scope.employees = bizObjects;
     }])
 })();
+```
+Note the service **bizObjects** injected in the employees controller. This service is implemented by AnguLOB and provides for a generic way of fetching business objects. You initialise this by calling the init method of the **bizObjects** service. The init method takes a configuration object as a parameter. In the code above, *title* is a property that holds the name of the business object you are trying to fetch. It is a required property as it is used in the reporting of status messages from the service. serviceUrl on the other hand is the webservice url without the host name portion.
+
+Below is the complete configuration object API
+```
+            {
+              title:"Employees",  //name of the business object you are trying to fetch (required)
+              servicevcUrl:"api/employees", //the webservice url without the host name portion (required)
+              pageSize: 10  //Number of records to fetch at a time can be bound to a ui element to change this value (defaults to 10 if not specified)
+            }
 ```
