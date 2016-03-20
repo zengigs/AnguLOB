@@ -15,18 +15,28 @@ AnguLOB is a javascript library designed for building line-of-business applicati
 Using AnguLOB is very easy. Just include the file angulob.js or angulob.min.js (for debugging or production) to your index.html file. Make sure it is after including the angularjs file as angulob depends on angularjs. See markup below
 
 ```
+index.html
 <html>
   <head>
-    .
-    .
-    .
+    ...
   </head>
   <body>
-    .
-    .
-    .
+    ...
     <script src="angular.js"></script>
     <script src="angulob.js"></script>
   </body>
 </html>
+```
+
+Then assuming I have an endpoint http://localhost/hrms/api/employees
+
+```
+(function () {
+    angular.module('app').controller('employeesController', ['$scope', 'bizObjects', function ($scope, bizObjects) {
+
+    }])
+        bizObjects.activate("Employees", "hrms/api/employees", "employees");
+        $scope.employees = bizObjects;
+    }])
+})();
 ```
