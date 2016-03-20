@@ -11,6 +11,14 @@ AnguLOB is a javascript library designed for building line-of-business applicati
 8.  Logging of user actions for audit purposes
 9.  And more...
 
+##Architecture
+AnguLOB consists of 3 services namely: bizObjects, bizObject, and bizData.
+**bizObjects** is used for fetching, searching, sorting, and paging a list of business objects from a backend server.
+
+**bizObject** is used to fetch a single business object or create, update, and delete a business object.
+
+**bizData** is used by both **bizObjects** and **bizObject**  to access data from the backend. One can also use **bizData** directly to access data.
+
 ##Usage
 Using AnguLOB is very easy. Just include the file angulob.js or angulob.min.js (for debugging or production) to your index.html file. Make sure it is after including the angularjs file as angulob depends on angularjs. See markup below
 
@@ -54,15 +62,15 @@ Note that the init method of the injected service **bizObjects** is an asynchron
 ##bizObjects API
 ```
 {
-  title: "",         //name of the business object you are trying to fetch
-  serviceUrl: "",   // web service url of the business objects e.g. hrms/api/hrms/employees
+  title: "Employees",         //name of the business object you are trying to fetch
+  serviceUrl: "hrms/api/hrms/employees",   // web service url of the business objects e.g. hrms/api/hrms/employees
   entities: [],   // array of json objects fetched by the service- can be bound to an HTML table to display fetched entities
-  entitiesCount: 0, // number of fetched records
-  totalEntitiescount: 0,//Total number of entities in the database
+  entitiesCount: 10, // number of fetched records
+  totalEntitiescount: 200,//Total number of entities in the database
   currentPage: 1,             //Current Page
   pageCount: 20,               //Number of Pages can be bound to a ui element to display page count
   pageSize: 10,               //Number of records to fetch at a time can be bound to a ui element to change this value
- pageChanged: function(){...} // Call this after setting currentPage to force the service to fetch new entities based on currentPage and pageSize,
+  pageChanged: function(){...} // Call this after setting currentPage to force the service to fetch new entities based on currentPage and pageSize,
  recordFilter: "", // Search Text This cabe bound to a search textbox in the user interface
   refresh: function(){...},// re-fetches entities from the database to reflect any database changes           // Reloads the 
   search : function(searchText){...}, // re-fetches entities from database selecting only  records that have any field matching the searchText parameter
