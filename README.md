@@ -31,18 +31,15 @@ index.html
 Then assuming you have a webservice endpoint http://localhost/hrms/api/employees that returns in json format the list of all employees for the human resource management system(hrms), you can write an angular controller for managing fetching of employees as illustrated in the code below:
 
 ```
+employees.js
 (function () {
     angular.module('app').controller('employeesController', ['$scope', 'bizObjects', function ($scope, bizObjects) {
-        bizObjects.init(
-            {
-              bizObjectName:"Employees",
-              bizObjectSvcUrl:"api/employees"
-            });
+        bizObjects.init({title:"Employees", serviceUrl:"api/employees"});
         $scope.employees = bizObjects;
     }])
 })();
 ```
-Note the service **bizObjects** injected in the employees controller. This service is implemented by AnguLOB and provides for a generic way of fetching business objects. You initialise this by calling the init method of the **bizObjects** service. The init method takes a configuration object as a parameter. In the code above, *title* is a property that holds the name of the business object you are trying to fetch. It is a required property as it is used in the reporting of status messages from the service. serviceUrl on the other hand is the webservice url without the host name portion.
+Note the service **bizObjects** injected in the employees controller. This service is implemented by AnguLOB and provides for a generic way of fetching business objects. You initialise this by calling the init method of the **bizObjects** service. The init method takes a configuration object as a parameter. In the code above, *title* is a property of the configuration object that holds the name of the business object you are trying to fetch. It is a required property as it is used in the reporting of status messages from the service. *serviceUrl* on the other hand is the webservice url without the host name portion.
 
 Below is the complete configuration object API
 ```
@@ -51,4 +48,24 @@ Below is the complete configuration object API
               servicevcUrl:"api/employees", //the webservice url without the host name portion (required)
               pageSize: 10  //Number of records to fetch at a time can be bound to a ui element to change this value (defaults to 10 if not specified)
             }
+```
+Note that the init method of the injected service **bizObjects** is an asynchronous call and does not wait for data to be fully fetched before program execution continues. After the call to init method, the **bizObjects** is updated and below is the API of the bizObjects service
+
+##bizObjects API
+```
+{
+  title: "",         //name of the business object you are trying to fetch
+  serviceUrl: "",   // web service url of the business objects e.g. hrms/api/hrms/employees
+  entities: [],   // array of json objects fetched by the service- can be bound to an HTML table to display fetched entities
+  entitiesCount: 0, // number of fetched records
+  totalEntitiescount: 0,//Total number of entities in the database
+  currentPage: 1,             //Current Page
+  pageCount: 20,               //Number of Pages can be bound to a ui element to display page count
+  pageSize: 10,               //Number of records to fetch at a time can be bound to a ui element to change this value
+ pageChanged: function(){...} // Call this after setting currentPage to force the service to fetch new entities based on currentPage and pageSize,
+ recordFilter: "", // Search Text This cabe bound to a search textbox in the user interface
+  refresh: function(){...},// re-fetches entities from the database to reflect any database changes           // Reloads the 
+  search : function(searchText){...}, // re-fetches entities from database selecting only  records that have any field matching the searchText parameter
+  init : function(configObject){...}
+}
 ```
